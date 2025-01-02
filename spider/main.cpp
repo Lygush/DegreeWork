@@ -20,6 +20,7 @@ std::mutex mtx;
 std::condition_variable cv;
 std::queue<std::function<void()>> tasks;
 bool exitThreadPool = false;
+const int max_redirect{5};
 
 IniParser ini("Properties.ini");
 
@@ -49,7 +50,7 @@ void parseLink(const Link& link, int depth, SpiderDatabaseWorker& db_worker)
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-		std::string html = getHtmlContent(link);
+		std::string html = getHtmlContent(link, max_redirect);
 
 		if (html.size() == 0)
 		{

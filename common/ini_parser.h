@@ -3,7 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <unordered_map>
+#include <vector>
+#include <map>
+
 
 enum class ErrorType
 {
@@ -40,6 +42,7 @@ struct ServerProperties
 	int server_port{};
 };
 
+
 class IniParser
 {
 public:
@@ -49,6 +52,7 @@ public:
 protected:
 	void str_analyser(std::string str);
 	void set_property();
+
 	std::string create_error_message(ErrorType type) const;
 	SearchStrength define_search_strength(std::string& property);
 
@@ -67,4 +71,6 @@ private:
 
 	bool section{false};
 	bool var_value{false};
+
+	std::vector<std::string> sections{};
 };

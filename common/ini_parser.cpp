@@ -21,7 +21,7 @@ void IniParser::read_property()
 			str_analyser(s);
 		}
 	}
-	file.close();
+	file.close(); 
 }
 
 void IniParser::str_analyser(std::string str)

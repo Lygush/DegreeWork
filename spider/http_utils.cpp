@@ -38,7 +38,32 @@ bool isText(const boost::beast::multi_buffer::const_buffers_type& b)
 	return true;
 }
 
-std::string getHtmlContent(const Link& link)
+std::string& check_redirect(const Link& base_link, http::response<http::dynamic_body> res, int max_redirects, std::string& result)
+{
+	if ((res.result_int() / 100) == 3 )// TODO:
+	{
+		if (max_redirects == 0)
+		{
+			throw std::runtime_error("Too many redirects");
+		}
+		
+		auto location = res.base().find("Location");
+		if (location != res.base().end())
+		{
+			std::string new_link{location->value().data(), location->value().size()};
+
+			result = getHtmlContent(link_creator(new_link, base_link), max_redirects - 1);
+		}
+		else
+		{
+			throw std::runtime_error("Redirect without Location header");
+		}
+	}
+	return result;
+}
+
+
+std::string getHtmlContent(const Link& link, int max_redirects)
 {
 
 	std::string result;
@@ -59,11 +84,7 @@ std::string getHtmlContent(const Link& link)
 			beast::ssl_stream<beast::tcp_stream> stream(ioc, ctx);
 			stream.set_verify_mode(ssl::verify_none);
 
-			stream.set_verify_callback(
-				[](bool preverified, ssl::verify_context& ctx)
-				{
-					return true;
-				});
+			stream.set_verify_callback([](bool preverified, ssl::verify_context& ctx) { return true; });
 
 			if (!SSL_set_tlsext_host_name(stream.native_handle(), host.c_str()))
 			{
@@ -83,12 +104,15 @@ std::string getHtmlContent(const Link& link)
 			http::write(stream, req);
 
 			beast::flat_buffer buffer;
+
 			http::response<http::dynamic_body> res;
+
 			http::read(stream, buffer, res);
 
 			if (isText(res.body().data()))
 			{
 				result = buffers_to_string(res.body().data());
+				result = check_redirect(link, res, max_redirects, result);
 			}
 			else
 			{
@@ -129,15 +153,18 @@ std::string getHtmlContent(const Link& link)
 
 			http::read(stream, buffer, res);
 
+			
+
 			if (isText(res.body().data()))
 			{
 				result = buffers_to_string(res.body().data());
+				result = check_redirect(link, res, max_redirects, result);
 			}
 			else
 			{
 				std::cout << "This is not a text link, bailing out..." << std::endl;
 			}
-
+			 
 			beast::error_code ec;
 			stream.socket().shutdown(tcp::socket::shutdown_both, ec);
 

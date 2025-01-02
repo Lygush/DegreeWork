@@ -9,7 +9,7 @@
 #include "../common/ini_parser.h"
 #include "../common/common_functions.h"
 #include "../common/word_worker.h"
-
+ 
 struct RegularExps
 {
 	const std::regex ref_reg{"<a href=\"(.*?)\"",
