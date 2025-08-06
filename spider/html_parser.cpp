@@ -28,7 +28,8 @@ std::vector<Link> HtmlParser::get_sub_links()
 		match = *i;
 		if (match[1].matched)
 		{
-			sub_links.push_back(link_creator(match[1].str(), base_link));
+			auto m_1 = match[1].str();
+			sub_links.push_back(link_creator(m_1, base_link));
 		}
 	}
 	return sub_links;
@@ -78,14 +79,16 @@ std::map<std::string, int> HtmlParser::indexer()
 		if (match[2].matched)
 		{
 			WordWorker dirty_str(match[2].str(), lang);
-			add_to_words_list(dirty_str.get_clear_words(), weight);
+			auto clean_words = dirty_str.get_clear_words();
+			add_to_words_list(clean_words, weight);
 		}
 
 		if (match[4].matched)
 		{
 			weight = 1;
 			WordWorker dirty_str(match[4].str(), lang);
-			add_to_words_list(dirty_str.get_clear_words(), weight);
+			auto clean_words = dirty_str.get_clear_words();
+			add_to_words_list(clean_words, weight);
 		}
 		weight = 1;
 	}

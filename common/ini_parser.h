@@ -6,7 +6,6 @@
 #include <vector>
 #include <map>
 
-
 enum class ErrorType
 {
 	VARIABLE = 0,

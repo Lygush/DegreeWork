@@ -5,10 +5,10 @@
 #include <vector>
 #include <boost/locale.hpp>
 
-struct ÑharactersRange
+struct CharactersRange
 {
 	std::pair<wchar_t, wchar_t> latin{L'\x061', L'\x07A'};
-	std::pair<wchar_t, wchar_t> cyrillic{L'\x430', L'\x44F'};
+	std::pair<wchar_t, wchar_t> cyrillic{L'\\x430', L'\\x44F'};
 
 	std::vector<std::pair<wchar_t, wchar_t>> delimiters{{L'\x020', L'\x02F'}, 
 														{L'\x03A', L'\x040'},

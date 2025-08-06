@@ -10,7 +10,7 @@ void IniParser::read_property()
 	file.open(path);
 	if (!file.is_open())
 	{
-		throw std::exception("File not open!");
+		throw std::runtime_error("File not open!");
 	}
 	else
 	{
@@ -76,7 +76,7 @@ void IniParser::str_analyser(std::string str)
 	var_value = false;
 	if (section)
 	{
-		throw std::exception(create_error_message(ErrorType::SECTION).c_str());
+		throw std::runtime_error(create_error_message(ErrorType::SECTION).c_str());
 	}
 	set_property();
 }
@@ -85,7 +85,7 @@ void IniParser::set_property()
 {
 	if (variable_value.length() == 0)
 	{
-		throw std::exception(create_error_message(ErrorType::ZERO_VARIABLE).c_str());
+		throw std::runtime_error(create_error_message(ErrorType::ZERO_VARIABLE).c_str());
 	}
 	if (section_name == "data_base")
 	{
@@ -111,7 +111,7 @@ void IniParser::set_property()
 		}
 		else
 		{
-			throw std::exception(create_error_message(ErrorType::VARIABLE).c_str());
+			throw std::runtime_error(create_error_message(ErrorType::VARIABLE).c_str());
 		}
 	}
 	else if (section_name == "spider")
@@ -130,7 +130,7 @@ void IniParser::set_property()
 		}
 		else
 		{
-			throw std::exception(create_error_message(ErrorType::VARIABLE).c_str());
+			throw std::runtime_error(create_error_message(ErrorType::VARIABLE).c_str());
 		}
 	}
 	else if (section_name == "http_server")
@@ -141,13 +141,13 @@ void IniParser::set_property()
 		}
 		else
 		{
-			throw std::exception(create_error_message(ErrorType::VARIABLE).c_str());
+			throw std::runtime_error(create_error_message(ErrorType::VARIABLE).c_str());
 		}
 	}
 	else
 	{
 		{
-			throw std::exception(create_error_message(ErrorType::SECTION).c_str());
+			throw std::runtime_error(create_error_message(ErrorType::SECTION).c_str());
 		}
 	}
 }

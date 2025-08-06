@@ -19,11 +19,11 @@ struct RegularExps
 		std::regex_constants::optimize};
 
 	std::regex middle_reg{"<meta name=\"(title|description|keywords)\" content=\"(.*?)\"|"
-						  "(<title>|<h\\d>)(.*?)(<\/title>|<\/h\\d>)",
+						  "(<title>|<h\\d>)(.*?)(<\\/title>|<\\/h\\d>)",
 		std::regex_constants::optimize};
 
 	std::regex deep_reg{"<meta name=\"(title|description|keywords)\" content=\"(.*?)\"|"
-						"(<title>|<p>|<h\\d>)(.*?)(<\/title>|<\/p>|<\/h\\d>)",
+						"(<title>|<p>|<h\\d>)(.*?)(<\\/title>|<\\/p>|<\\/h\\d>)",
 		std::regex_constants::optimize};
 };
 

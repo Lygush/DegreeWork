@@ -53,7 +53,7 @@ void WordWorker::to_lower_case()
 
 bool WordWorker::set_language(const std::string& lang)
 {
-	ÑharactersRange cr{};
+	CharactersRange cr{};
 
 	wchar_t begin{}, end{};
 
